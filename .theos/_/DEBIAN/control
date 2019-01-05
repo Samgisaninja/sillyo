@@ -1,0 +1,10 @@
+Package: com.samgisaninja.sillyo
+Name: sillyo
+Depends: mobilesubstrate
+Architecture: iphoneos-arm
+Description: An awesome MobileSubstrate tweak!
+Maintainer: unc0ver Team
+Author: unc0ver Team
+Section: Tweaks
+Version: 0.0.1-16+debug
+Installed-Size: 104
