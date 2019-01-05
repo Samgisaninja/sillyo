@@ -1,14 +1,40 @@
-//Part 1: fix duplicate sources error.
+#line 1 "Tweak.xm"
+
 @interface Source
 - (NSString *) rooturi;
 - (void) _remove;
 @end
 
-%hook Database
 
-- (NSArray *) sources {
+#include <substrate.h>
+#if defined(__clang__)
+#if __has_feature(objc_arc)
+#define _LOGOS_SELF_TYPE_NORMAL __unsafe_unretained
+#define _LOGOS_SELF_TYPE_INIT __attribute__((ns_consumed))
+#define _LOGOS_SELF_CONST const
+#define _LOGOS_RETURN_RETAINED __attribute__((ns_returns_retained))
+#else
+#define _LOGOS_SELF_TYPE_NORMAL
+#define _LOGOS_SELF_TYPE_INIT
+#define _LOGOS_SELF_CONST
+#define _LOGOS_RETURN_RETAINED
+#endif
+#else
+#define _LOGOS_SELF_TYPE_NORMAL
+#define _LOGOS_SELF_TYPE_INIT
+#define _LOGOS_SELF_CONST
+#define _LOGOS_RETURN_RETAINED
+#endif
+
+@class Database; 
+static NSArray * (*_logos_orig$_ungrouped$Database$sources)(_LOGOS_SELF_TYPE_NORMAL Database* _LOGOS_SELF_CONST, SEL); static NSArray * _logos_method$_ungrouped$Database$sources(_LOGOS_SELF_TYPE_NORMAL Database* _LOGOS_SELF_CONST, SEL); 
+
+#line 7 "Tweak.xm"
+
+
+static NSArray * _logos_method$_ungrouped$Database$sources(_LOGOS_SELF_TYPE_NORMAL Database* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) {
   if ([[NSFileManager defaultManager] fileExistsAtPath:@"/etc/apt/sources.list.d/sileo.sources"]) {
-    NSArray *sourcesList = %orig;
+    NSArray *sourcesList = _logos_orig$_ungrouped$Database$sources(self, _cmd);
     BOOL didRemoveSource;
     NSMutableArray *removedSources = [[NSMutableArray alloc] init];
     for(Source *checkingSource in sourcesList) {
@@ -26,7 +52,7 @@
         }
     }
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/etc/apt/sources.list.d/sileo.list"]) {
-      NSArray *sourcesList = %orig;
+      NSArray *sourcesList = _logos_orig$_ungrouped$Database$sources(self, _cmd);
       BOOL didRemoveSource;
       NSMutableArray *removedSources = [[NSMutableArray alloc] init];
       for(Source *checkingSource in sourcesList) {
@@ -53,7 +79,10 @@
       #pragma clang diagnostic pop
     }
   }
-  return %orig;
+  return _logos_orig$_ungrouped$Database$sources(self, _cmd);
 }
 
-%end
+
+static __attribute__((constructor)) void _logosLocalInit() {
+{Class _logos_class$_ungrouped$Database = objc_getClass("Database"); MSHookMessageEx(_logos_class$_ungrouped$Database, @selector(sources), (IMP)&_logos_method$_ungrouped$Database$sources, (IMP*)&_logos_orig$_ungrouped$Database$sources);} }
+#line 60 "Tweak.xm"
