@@ -3,7 +3,7 @@ Name: sillyo
 Depends: mobilesubstrate
 Version: 0.0.1
 Architecture: iphoneos-arm
-Description: An awesome MobileSubstrate tweak!
+Description: Compatibility layer for Sileo/unc0ver
 Maintainer: unc0ver Team
 Author: unc0ver Team
 Section: Tweaks
