@@ -1,6 +1,6 @@
 Package: com.samgisaninja.sillyo
 Name: sillyo
-Depends: mobilesubstrate
+Depends: mobilesubstrate, libapt-pkg5.0 (>= 1.4.8~broke-1), libapt-pkg5.0 (<< 1.4.8-1), apt1.4 (>= 1.4.8~broke-1), apt1.4 (<< 1.4.8-1)
 Version: 0.1.0
 Architecture: iphoneos-arm
 Description: Compatibility layer for Sileo/unc0ver
