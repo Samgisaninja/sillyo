@@ -7,5 +7,6 @@ Maintainer: unc0ver Team
 Author: unc0ver Team
 Section: Tweaks
 Pre-Depends: org.coolstar.sileo
-Version: 0.1.0-5+debug
+Conflicts: com.pixelomer.u0sileo.backend, com.pixelomer.u0sileo
+Version: 0.1.0-1+debug
 Installed-Size: 104
