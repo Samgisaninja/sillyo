@@ -1,0 +1,9 @@
+#!/bin/bash
+
+chmod 4755 /Applications/Sileo.app/giveMeRoot
+chown root:admin /Applications/Sileo.app/giveMeRoot
+
+echo =========================
+echo Sillyo by the unc0ver team
+echo Special Thanks: Ocean Team for the Elucubratus repo fix
+echo =========================

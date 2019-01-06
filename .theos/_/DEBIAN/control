@@ -6,5 +6,6 @@ Description: Compatibility layer for Sileo/unc0ver
 Maintainer: unc0ver Team
 Author: unc0ver Team
 Section: Tweaks
-Version: 0.0.1-4+debug
+Pre-Depends: org.coolstar.sileo
+Version: 0.1.0-5+debug
 Installed-Size: 104
