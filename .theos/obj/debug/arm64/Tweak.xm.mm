@@ -38,7 +38,9 @@ static NSArray * _logos_method$_ungrouped$Database$sources(_LOGOS_SELF_TYPE_NORM
     BOOL didRemoveSource;
     NSMutableArray *removedSources = [[NSMutableArray alloc] init];
     for(Source *checkingSource in sourcesList) {
-      NSString *checkingSourceString = [checkingSource rooturi];
+      NSMutableString *checkingSourceString = [NSMutableString stringWithString:[checkingSource rooturi]];
+      [checkingSourceString replaceOccurrencesOfString:@"https://" withString:@"" options:nil range:NSMakeRange(0, [checkingSourceString length])];
+      [checkingSourceString replaceOccurrencesOfString:@"http://" withString:@"" options:nil range:NSMakeRange(0, [checkingSourceString length])];
       NSString *sileoSourcesString = [NSString stringWithContentsOfFile:@"/etc/apt/sources.list.d/sileo.sources" encoding:NSUTF8StringEncoding error:nil];
       NSString *cydiaSourcesString = [NSString stringWithContentsOfFile:@"/etc/apt/sources.list.d/cydia.list" encoding:NSUTF8StringEncoding error:nil];
       if ([sileoSourcesString rangeOfString:checkingSourceString].location == NSNotFound) {}
@@ -56,7 +58,9 @@ static NSArray * _logos_method$_ungrouped$Database$sources(_LOGOS_SELF_TYPE_NORM
       BOOL didRemoveSource;
       NSMutableArray *removedSources = [[NSMutableArray alloc] init];
       for(Source *checkingSource in sourcesList) {
-        NSString *checkingSourceString = [checkingSource rooturi];
+        NSMutableString *checkingSourceString = [NSMutableString stringWithString:[checkingSource rooturi]];
+        [checkingSourceString replaceOccurrencesOfString:@"https://" withString:@"" options:nil range:NSMakeRange(0, [checkingSourceString length])];
+        [checkingSourceString replaceOccurrencesOfString:@"http://" withString:@"" options:nil range:NSMakeRange(0, [checkingSourceString length])];
         NSString *sileoSourcesString = [NSString stringWithContentsOfFile:@"/etc/apt/sources.list.d/sileo.list" encoding:NSUTF8StringEncoding error:nil];
         NSString *cydiaSourcesString = [NSString stringWithContentsOfFile:@"/etc/apt/sources.list.d/cydia.list" encoding:NSUTF8StringEncoding error:nil];
         if ([sileoSourcesString rangeOfString:checkingSourceString].location == NSNotFound) {}
@@ -85,4 +89,4 @@ static NSArray * _logos_method$_ungrouped$Database$sources(_LOGOS_SELF_TYPE_NORM
 
 static __attribute__((constructor)) void _logosLocalInit() {
 {Class _logos_class$_ungrouped$Database = objc_getClass("Database"); MSHookMessageEx(_logos_class$_ungrouped$Database, @selector(sources), (IMP)&_logos_method$_ungrouped$Database$sources, (IMP*)&_logos_orig$_ungrouped$Database$sources);} }
-#line 60 "Tweak.xm"
+#line 64 "Tweak.xm"

@@ -12,7 +12,9 @@
     BOOL didRemoveSource;
     NSMutableArray *removedSources = [[NSMutableArray alloc] init];
     for(Source *checkingSource in sourcesList) {
-      NSString *checkingSourceString = [checkingSource rooturi];
+      NSMutableString *checkingSourceString = [NSMutableString stringWithString:[checkingSource rooturi]];
+      [checkingSourceString replaceOccurrencesOfString:@"https://" withString:@"" options:nil range:NSMakeRange(0, [checkingSourceString length])];
+      [checkingSourceString replaceOccurrencesOfString:@"http://" withString:@"" options:nil range:NSMakeRange(0, [checkingSourceString length])];
       NSString *sileoSourcesString = [NSString stringWithContentsOfFile:@"/etc/apt/sources.list.d/sileo.sources" encoding:NSUTF8StringEncoding error:nil];
       NSString *cydiaSourcesString = [NSString stringWithContentsOfFile:@"/etc/apt/sources.list.d/cydia.list" encoding:NSUTF8StringEncoding error:nil];
       if ([sileoSourcesString rangeOfString:checkingSourceString].location == NSNotFound) {}
@@ -30,7 +32,9 @@
       BOOL didRemoveSource;
       NSMutableArray *removedSources = [[NSMutableArray alloc] init];
       for(Source *checkingSource in sourcesList) {
-        NSString *checkingSourceString = [checkingSource rooturi];
+        NSMutableString *checkingSourceString = [NSMutableString stringWithString:[checkingSource rooturi]];
+        [checkingSourceString replaceOccurrencesOfString:@"https://" withString:@"" options:nil range:NSMakeRange(0, [checkingSourceString length])];
+        [checkingSourceString replaceOccurrencesOfString:@"http://" withString:@"" options:nil range:NSMakeRange(0, [checkingSourceString length])];
         NSString *sileoSourcesString = [NSString stringWithContentsOfFile:@"/etc/apt/sources.list.d/sileo.list" encoding:NSUTF8StringEncoding error:nil];
         NSString *cydiaSourcesString = [NSString stringWithContentsOfFile:@"/etc/apt/sources.list.d/cydia.list" encoding:NSUTF8StringEncoding error:nil];
         if ([sileoSourcesString rangeOfString:checkingSourceString].location == NSNotFound) {}
