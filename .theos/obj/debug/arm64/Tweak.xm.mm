@@ -33,10 +33,10 @@ static NSArray * (*_logos_orig$_ungrouped$Database$sources)(_LOGOS_SELF_TYPE_NOR
 
 
 static NSArray * _logos_method$_ungrouped$Database$sources(_LOGOS_SELF_TYPE_NORMAL Database* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) {
+  NSArray *sourcesList = _logos_orig$_ungrouped$Database$sources(self, _cmd);
+  BOOL didRemoveSource;
+  NSMutableArray *removedSources = [[NSMutableArray alloc] init];
   if ([[NSFileManager defaultManager] fileExistsAtPath:@"/etc/apt/sources.list.d/sileo.sources"]) {
-    NSArray *sourcesList = _logos_orig$_ungrouped$Database$sources(self, _cmd);
-    BOOL didRemoveSource;
-    NSMutableArray *removedSources = [[NSMutableArray alloc] init];
     for(Source *checkingSource in sourcesList) {
       NSMutableString *checkingSourceString = [NSMutableString stringWithString:[checkingSource rooturi]];
       [checkingSourceString replaceOccurrencesOfString:@"https://" withString:@"" options:nil range:NSMakeRange(0, [checkingSourceString length])];
@@ -47,16 +47,17 @@ static NSArray * _logos_method$_ungrouped$Database$sources(_LOGOS_SELF_TYPE_NORM
         else {
           if ([cydiaSourcesString rangeOfString:checkingSourceString].location == NSNotFound) {}
             else {
-              didRemoveSource = TRUE;
-              [removedSources addObject:[checkingSource rooturi]];
-              [checkingSource _remove];
+              if ([[checkingSource rooturi] isEqualToString:@"https://apt.bingner.com"]) {}
+                else {
+                  didRemoveSource = TRUE;
+                  [removedSources addObject:[checkingSource rooturi]];
+                  [checkingSource _remove];
+              }
             }
         }
     }
+  }
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/etc/apt/sources.list.d/sileo.list"]) {
-      NSArray *sourcesList = _logos_orig$_ungrouped$Database$sources(self, _cmd);
-      BOOL didRemoveSource;
-      NSMutableArray *removedSources = [[NSMutableArray alloc] init];
       for(Source *checkingSource in sourcesList) {
         NSMutableString *checkingSourceString = [NSMutableString stringWithString:[checkingSource rooturi]];
         [checkingSourceString replaceOccurrencesOfString:@"https://" withString:@"" options:nil range:NSMakeRange(0, [checkingSourceString length])];
@@ -67,9 +68,12 @@ static NSArray * _logos_method$_ungrouped$Database$sources(_LOGOS_SELF_TYPE_NORM
           else {
             if ([cydiaSourcesString rangeOfString:checkingSourceString].location == NSNotFound) {}
               else {
-                didRemoveSource = TRUE;
-                [removedSources addObject:[checkingSource rooturi]];
-                [checkingSource _remove];
+                if ([[checkingSource rooturi] isEqualToString:@"https://apt.bingner.com"]) {}
+                  else {
+                    didRemoveSource = TRUE;
+                    [removedSources addObject:[checkingSource rooturi]];
+                    [checkingSource _remove];
+                }
               }
           }
       }
@@ -82,11 +86,10 @@ static NSArray * _logos_method$_ungrouped$Database$sources(_LOGOS_SELF_TYPE_NORM
   	  [alert release];
       #pragma clang diagnostic pop
     }
-  }
   return _logos_orig$_ungrouped$Database$sources(self, _cmd);
 }
 
 
 static __attribute__((constructor)) void _logosLocalInit() {
 {Class _logos_class$_ungrouped$Database = objc_getClass("Database"); MSHookMessageEx(_logos_class$_ungrouped$Database, @selector(sources), (IMP)&_logos_method$_ungrouped$Database$sources, (IMP*)&_logos_orig$_ungrouped$Database$sources);} }
-#line 64 "Tweak.xm"
+#line 67 "Tweak.xm"

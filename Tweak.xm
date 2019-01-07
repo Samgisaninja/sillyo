@@ -7,10 +7,10 @@
 %hook Database
 
 - (NSArray *) sources {
+  NSArray *sourcesList = %orig;
+  BOOL didRemoveSource;
+  NSMutableArray *removedSources = [[NSMutableArray alloc] init];
   if ([[NSFileManager defaultManager] fileExistsAtPath:@"/etc/apt/sources.list.d/sileo.sources"]) {
-    NSArray *sourcesList = %orig;
-    BOOL didRemoveSource;
-    NSMutableArray *removedSources = [[NSMutableArray alloc] init];
     for(Source *checkingSource in sourcesList) {
       NSMutableString *checkingSourceString = [NSMutableString stringWithString:[checkingSource rooturi]];
       [checkingSourceString replaceOccurrencesOfString:@"https://" withString:@"" options:nil range:NSMakeRange(0, [checkingSourceString length])];
@@ -21,16 +21,17 @@
         else {
           if ([cydiaSourcesString rangeOfString:checkingSourceString].location == NSNotFound) {}
             else {
-              didRemoveSource = TRUE;
-              [removedSources addObject:[checkingSource rooturi]];
-              [checkingSource _remove];
+              if ([[checkingSource rooturi] isEqualToString:@"https://apt.bingner.com"]) {}
+                else {
+                  didRemoveSource = TRUE;
+                  [removedSources addObject:[checkingSource rooturi]];
+                  [checkingSource _remove];
+              }
             }
         }
     }
+  }
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/etc/apt/sources.list.d/sileo.list"]) {
-      NSArray *sourcesList = %orig;
-      BOOL didRemoveSource;
-      NSMutableArray *removedSources = [[NSMutableArray alloc] init];
       for(Source *checkingSource in sourcesList) {
         NSMutableString *checkingSourceString = [NSMutableString stringWithString:[checkingSource rooturi]];
         [checkingSourceString replaceOccurrencesOfString:@"https://" withString:@"" options:nil range:NSMakeRange(0, [checkingSourceString length])];
@@ -41,9 +42,12 @@
           else {
             if ([cydiaSourcesString rangeOfString:checkingSourceString].location == NSNotFound) {}
               else {
-                didRemoveSource = TRUE;
-                [removedSources addObject:[checkingSource rooturi]];
-                [checkingSource _remove];
+                if ([[checkingSource rooturi] isEqualToString:@"https://apt.bingner.com"]) {}
+                  else {
+                    didRemoveSource = TRUE;
+                    [removedSources addObject:[checkingSource rooturi]];
+                    [checkingSource _remove];
+                }
               }
           }
       }
@@ -56,7 +60,6 @@
   	  [alert release];
       #pragma clang diagnostic pop
     }
-  }
   return %orig;
 }
 
