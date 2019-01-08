@@ -55,7 +55,7 @@
     if (didRemoveSource) {
       #pragma clang diagnostic push
   	  #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-  	  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sillyo" message:[NSString stringWithFormat:@"Duplicate Sources Error Fixed!\n\nThe following repos were added to both Cydia and Sileo:\n%@\nIf you'd like to remove these repos at a later time, you must do so through Sileo.", [removedSources componentsJoinedByString:@"\n"]] delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+  	  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sileo compatibility layer" message:[NSString stringWithFormat:@"Duplicate Sources Error Fixed!\n\nThe following repos were added to both Cydia and Sileo:\n%@\nIf you'd like to remove these repos at a later time, you must do so through Sileo.\n\nPLEASE RESTART CYDIA", [removedSources componentsJoinedByString:@"\n"]] delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
   	  [alert show];
   	  [alert release];
       #pragma clang diagnostic pop
