@@ -1,1 +1,8 @@
-{ Filter = { Bundles = ( "com.saurik.Cydia" ); }; }
+{
+    Filter =     {
+        Bundles =         (
+            "com.saurik.Cydia",
+            "org.coolstar.SileoStore"
+        );
+    };
+}
