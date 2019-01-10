@@ -1,3 +1,5 @@
+%group cydia
+
 //Part 1: fix duplicate sources error.
 @interface Source
 - (NSString *) rooturi;
@@ -64,3 +66,31 @@
 }
 
 %end
+
+%end
+
+
+
+%group sileo
+
+%hook URLManager
+// THX sbingner!
++(NSMutableURLRequest*) urlRequestWithHeaders:(NSURL *)url includingDeviceInfo:(bool)info {
+   NSMutableURLRequest *req = %orig;
+  if ([req valueForHTTPHeaderField:@"X-Firmware"] == nil){
+    [req setValue:[NSString stringWithFormat:@"%0.1f", [[[UIDevice currentDevice] systemVersion] floatValue]] forHTTPHeaderField:@"X-Firmware"];
+  }
+  return req;
+}
+
+%end
+
+%end
+
+%ctor {
+	if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.saurik.Cydia"]) {
+		%init(cydia);
+	} else if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"org.coolstar.SileoStore"]) {
+		%init(sileo);
+	}
+}

@@ -1,11 +1,5 @@
 #line 1 "Tweak.xm"
 
-@interface Source
-- (NSString *) rooturi;
-- (void) _remove;
-@end
-
-
 #include <substrate.h>
 #if defined(__clang__)
 #if __has_feature(objc_arc)
@@ -26,14 +20,22 @@
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class Database; 
-static NSArray * (*_logos_orig$_ungrouped$Database$sources)(_LOGOS_SELF_TYPE_NORMAL Database* _LOGOS_SELF_CONST, SEL); static NSArray * _logos_method$_ungrouped$Database$sources(_LOGOS_SELF_TYPE_NORMAL Database* _LOGOS_SELF_CONST, SEL); 
-
-#line 7 "Tweak.xm"
+@class URLManager; @class Database; 
 
 
-static NSArray * _logos_method$_ungrouped$Database$sources(_LOGOS_SELF_TYPE_NORMAL Database* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) {
-  NSArray *sourcesList = _logos_orig$_ungrouped$Database$sources(self, _cmd);
+#line 1 "Tweak.xm"
+static NSArray * (*_logos_orig$cydia$Database$sources)(_LOGOS_SELF_TYPE_NORMAL Database* _LOGOS_SELF_CONST, SEL); static NSArray * _logos_method$cydia$Database$sources(_LOGOS_SELF_TYPE_NORMAL Database* _LOGOS_SELF_CONST, SEL); 
+
+
+@interface Source
+- (NSString *) rooturi;
+- (void) _remove;
+@end
+
+
+
+static NSArray * _logos_method$cydia$Database$sources(_LOGOS_SELF_TYPE_NORMAL Database* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) {
+  NSArray *sourcesList = _logos_orig$cydia$Database$sources(self, _cmd);
   BOOL didRemoveSource;
   NSMutableArray *removedSources = [[NSMutableArray alloc] init];
   if ([[NSFileManager defaultManager] fileExistsAtPath:@"/etc/apt/sources.list.d/sileo.sources"]) {
@@ -81,15 +83,40 @@ static NSArray * _logos_method$_ungrouped$Database$sources(_LOGOS_SELF_TYPE_NORM
     if (didRemoveSource) {
       #pragma clang diagnostic push
   	  #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-  	  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sillyo" message:[NSString stringWithFormat:@"Duplicate Sources Error Fixed!\n\nThe following repos were added to both Cydia and Sileo:\n%@\nIf you'd like to remove these repos at a later time, you must do so through Sileo.", [removedSources componentsJoinedByString:@"\n"]] delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+  	  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sileo compatibility layer" message:[NSString stringWithFormat:@"Duplicate Sources Error Fixed!\n\nThe following repos were added to both Cydia and Sileo:\n%@\nIf you'd like to remove these repos at a later time, you must do so through Sileo.\n\nPLEASE RESTART CYDIA", [removedSources componentsJoinedByString:@"\n"]] delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
   	  [alert show];
   	  [alert release];
       #pragma clang diagnostic pop
     }
-  return _logos_orig$_ungrouped$Database$sources(self, _cmd);
+  return _logos_orig$cydia$Database$sources(self, _cmd);
 }
 
 
-static __attribute__((constructor)) void _logosLocalInit() {
-{Class _logos_class$_ungrouped$Database = objc_getClass("Database"); MSHookMessageEx(_logos_class$_ungrouped$Database, @selector(sources), (IMP)&_logos_method$_ungrouped$Database$sources, (IMP*)&_logos_orig$_ungrouped$Database$sources);} }
-#line 67 "Tweak.xm"
+
+
+
+
+
+static NSMutableURLRequest* (*_logos_meta_orig$sileo$URLManager$urlRequestWithHeaders$includingDeviceInfo$)(_LOGOS_SELF_TYPE_NORMAL Class _LOGOS_SELF_CONST, SEL, NSURL *, bool); static NSMutableURLRequest* _logos_meta_method$sileo$URLManager$urlRequestWithHeaders$includingDeviceInfo$(_LOGOS_SELF_TYPE_NORMAL Class _LOGOS_SELF_CONST, SEL, NSURL *, bool); 
+
+
+
+static NSMutableURLRequest* _logos_meta_method$sileo$URLManager$urlRequestWithHeaders$includingDeviceInfo$(_LOGOS_SELF_TYPE_NORMAL Class _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, NSURL * url, bool info) {
+   NSMutableURLRequest *req = _logos_meta_orig$sileo$URLManager$urlRequestWithHeaders$includingDeviceInfo$(self, _cmd, url, info);
+  if ([req valueForHTTPHeaderField:@"X-Firmware"] == nil){
+    [req setValue:[NSString stringWithFormat:@"%0.1f", [[[UIDevice currentDevice] systemVersion] floatValue]] forHTTPHeaderField:@"X-Firmware"];
+  }
+  return req;
+}
+
+
+
+
+
+static __attribute__((constructor)) void _logosLocalCtor_07b3768c(int __unused argc, char __unused **argv, char __unused **envp) {
+	if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.saurik.Cydia"]) {
+		{Class _logos_class$cydia$Database = objc_getClass("Database"); MSHookMessageEx(_logos_class$cydia$Database, @selector(sources), (IMP)&_logos_method$cydia$Database$sources, (IMP*)&_logos_orig$cydia$Database$sources);}
+	} else if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"org.coolstar.SileoStore"]) {
+		{Class _logos_class$sileo$URLManager = objc_getClass("URLManager"); Class _logos_metaclass$sileo$URLManager = object_getClass(_logos_class$sileo$URLManager); MSHookMessageEx(_logos_metaclass$sileo$URLManager, @selector(urlRequestWithHeaders:includingDeviceInfo:), (IMP)&_logos_meta_method$sileo$URLManager$urlRequestWithHeaders$includingDeviceInfo$, (IMP*)&_logos_meta_orig$sileo$URLManager$urlRequestWithHeaders$includingDeviceInfo$);}
+	}
+}
