@@ -1,11 +1,9 @@
-BOOL dologs=false;
-
 %hook URLManager
 // THX sbingner!
 +(NSMutableURLRequest*) urlRequestWithHeaders:(NSURL *)url includingDeviceInfo:(bool)info {
     NSMutableURLRequest *req = %orig;
     if ([req valueForHTTPHeaderField:@"X-Firmware"] == nil){
-        [req setValue:[NSString stringWithFormat:@"%0.1f", [[[UIDevice currentDevice] systemVersion] floatValue]] forHTTPHeaderField:@"X-Firmware"];
+        [req setValue:[[UIDevice currentDevice] systemVersion] forHTTPHeaderField:@"X-Firmware"];
     }
     return req;
 }
