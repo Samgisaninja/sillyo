@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rm /etc/apt/sources.list.d/sileo.list
+rm /etc/apt/sources.list.d/sileo.sources
+rm -rf /etc/apt/sillyo/
