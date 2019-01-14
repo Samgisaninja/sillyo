@@ -1,3 +1,5 @@
+@import WebKit;
+
 %hook URLManager
 // THX sbingner!
 +(NSMutableURLRequest*) urlRequestWithHeaders:(NSURL *)url includingDeviceInfo:(bool)info {
@@ -57,24 +59,12 @@
     }
 
     NSString *newOutput = [outputs componentsJoinedByString:@"\n"];
-
-    NSLog(@"Sillyo: %@", newOutput);
     return [newOutput retain];
 }
 
 %end
 
-%hook __NSCFString
--(BOOL)isEqualToString:(NSString*)string {
-    if (string && (strcmp(string.UTF8String, "cydia.list")==0 || strcmp(string.UTF8String, "saurik.list")==0)) {
-        return NO;
-    }
-    return %orig;
-}
-
-%end
 //Special thanks to the ocean team!
-@import WebKit;
 
 %hook WKWebView
 -(id)initWithFrame:(CGRect)arg1 configuration:(WKWebViewConfiguration*)config {
@@ -88,3 +78,39 @@
     return config;
 }
 %end
+
+//thanks pixelomer!
+#pragma mark split sources
+%hook NSFileManager
+
+- (id)contentsOfDirectoryAtPath:(NSString*)path error:(NSError**)error {
+	return %orig([path stringByReplacingOccurrencesOfString:@"/etc/apt/sources.list.d" withString:@"/etc/apt/sillyo"], error);
+}
+
+%end
+
+%hook RepoManager
+
+- (void)parseSourcesFile:(NSString*)file {
+	%orig([file stringByReplacingOccurrencesOfString:@"/etc/apt/sources.list.d" withString:@"/etc/apt/sillyo"]);
+}
+
+- (void)parseListFile:(NSString*)file {
+	%orig([file stringByReplacingOccurrencesOfString:@"/etc/apt/sources.list.d" withString:@"/etc/apt/sillyo"]);
+}
+
+%end
+
+%hook rootMeWrapper
+
+// Sileo uses this function to update the sileo.sources file.
++ (int)outputForCommandAsRoot:(NSString*)cmd output:(id*)out {
+	@autoreleasepool {
+		NSString *finalCmd = [cmd stringByReplacingOccurrencesOfString:@"/etc/apt/sources.list.d" withString:@"/etc/apt/sillyo"];
+		int exitCode = %orig(finalCmd, out);
+		return exitCode;
+	}
+}
+
+%end
+#pragma mark end split sources
