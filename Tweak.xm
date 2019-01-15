@@ -67,15 +67,23 @@
 //Special thanks to the ocean team!
 
 %hook WKWebView
--(id)initWithFrame:(CGRect)arg1 configuration:(WKWebViewConfiguration*)config {
-    config.preferences.javaScriptEnabled = YES;
-    return %orig;
+-(void)layoutSubviews
+{
+    %orig;
+    [self reload];
+}
+%end
+
+%hook WKPreferences
+-(void)setJavaScriptEnabled:(BOOL)arg1
+{
+    arg1 = YES;
+    %orig;
 }
 
--(WKWebViewConfiguration*)configuration {
-    WKWebViewConfiguration* config = %orig;
-    config.preferences.javaScriptEnabled = YES;
-    return config;
+-(BOOL)javaScriptEnabled
+{
+    return YES;
 }
 %end
 
