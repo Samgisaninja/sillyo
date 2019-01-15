@@ -89,10 +89,23 @@
 
 %end
 
+@interface Repo : NSObject
+@property (nonatomic, retain) NSString* rawURL;
+@end
+
 %hook RepoManager
 
 - (void)parseSourcesFile:(NSString*)file {
 	%orig([file stringByReplacingOccurrencesOfString:@"/etc/apt/sources.list.d" withString:@"/etc/apt/sillyo"]);
+    NSMutableArray<Repo*>* repos = MSHookIvar<NSMutableArray<Repo*>*>(self, "_repoList");
+    for (Repo* r in repos)
+    {
+        if ([r.rawURL isEqualToString:@"https://electrarepo64.coolstar.org/"])
+        {
+            [repos removeObject:r];
+            break;
+        }
+    }
 }
 
 - (void)parseListFile:(NSString*)file {
