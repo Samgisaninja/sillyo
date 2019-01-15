@@ -12,18 +12,24 @@
 
 %end
 
-%hook APTWrapper
-
-+(NSString*)getOutputForArguments:(NSArray*)arguments errorOutput:(NSString**)errorOutput error:(NSError**)error {
+%hook NSConcreteTask
+-(void)setArguments:(NSArray*)arguments
+{
     NSMutableArray *newargs = [arguments mutableCopy];
     [newargs removeObject:@"-oAPT::Format::for-sileo=true"];
-    NSString *output = %orig(newargs, errorOutput, error);
+    return %orig(newargs);
+}
+%end
+
+
+NSString *makeShittyJSON(NSString* output) {
     NSRegularExpression *instExpr = [NSRegularExpression regularExpressionWithPattern:@"^(\\S+) (\\S+) \\((\\S+) (.+\\])\\)$"
                                                             options:NSRegularExpressionAnchorsMatchLines error:nil];
     NSRegularExpression *reinstExpr = [NSRegularExpression regularExpressionWithPattern:@"^(\\S+) (\\S+) \\[(\\S+)\\] \\((\\S+) (.+\\])\\)$"
                                                             options:NSRegularExpressionAnchorsMatchLines error:nil];
     NSRegularExpression *removeExpr = [NSRegularExpression regularExpressionWithPattern:@"^(\\S+) (\\S+) \\[(\\S+)\\]$"
                                                             options:NSRegularExpressionAnchorsMatchLines error:nil];
+
     NSMutableArray <NSString*> *outputs = [NSMutableArray new];
     for (NSTextCheckingResult *line in [instExpr matchesInString:output options:0 range:NSMakeRange(0, output.length)]) {
         NSString *json = [[NSString alloc]
@@ -59,8 +65,19 @@
     }
 
     NSString *newOutput = [outputs componentsJoinedByString:@"\n"];
-    return [newOutput retain];
+    return [output stringByAppendingString:newOutput];
 }
+
+%hook NSConcreteFileHandle
+
+-(NSData*)readDataToEndOfFile
+{
+    NSData *data = [%orig mutableCopy];
+    NSString *output = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSString *shittyJSON = makeShittyJSON(output);
+    return [shittyJSON dataUsingEncoding:NSUTF8StringEncoding];
+}
+
 
 %end
 
