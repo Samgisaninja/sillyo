@@ -12,12 +12,47 @@
 
 %end
 
+@interface Repo : NSObject
+@property (nonatomic, retain) NSString* rawURL;
+@end
+
+@interface RepoManager : NSObject
++(instancetype)sharedInstance;
+@end
+
+BOOL repoInstalled(NSString* cmd) {
+    NSArray<NSString*>* comp = [cmd componentsSeparatedByString:@"rm \'/var/lib/apt/lists/"];
+    if (comp.count > 1) {
+        NSString* repo = [comp[1] componentsSeparatedByString:@"_._"][0];
+        if (repo.length) {
+            if ([repo containsString:@"apt.thebigboss.org"]) return YES;
+            NSArray<Repo*>* repoList = MSHookIvar<NSArray<Repo*>*>([%c(RepoManager) sharedInstance], "_repoList");
+            for (Repo* r in repoList) {
+                NSString* url = r.rawURL;
+                comp = [url componentsSeparatedByString:@"://"];
+                if (comp.count > 1) {
+                    url = comp[1];
+                    url = [url stringByReplacingOccurrencesOfString:@"/" withString:@""];
+                    if ([repo containsString:url]) return YES;
+                }
+            }
+        }
+    }
+    return NO;
+}
+
 %hook NSConcreteTask
 -(void)setArguments:(NSArray*)arguments
 {
     NSMutableArray *newargs = [arguments mutableCopy];
     [newargs removeObject:@"-oAPT::Format::for-sileo=true"];
-    return %orig(newargs);
+    if (newargs.count) {
+        NSString* cmd = newargs[0];
+        if ([cmd hasPrefix:@"rm \'/var/lib/apt/lists/"]) {
+            if (repoInstalled(cmd)) return;
+        }
+    }
+    %orig(newargs);
 }
 %end
 
@@ -113,10 +148,6 @@ NSString *makeShittyJSON(NSString* output) {
 }
 
 %end
-
-@interface Repo : NSObject
-@property (nonatomic, retain) NSString* rawURL;
-@end
 
 %hook RepoManager
 
