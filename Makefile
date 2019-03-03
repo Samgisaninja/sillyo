@@ -1,3 +1,5 @@
+THEOS_DEVICE_IP=192.168.0.101
+
 include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = sillyo
