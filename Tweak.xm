@@ -12,7 +12,6 @@
 
 -(void)viewDidLoad {
   %orig;
-  NSLog(@"CategoryViewController SAMGISANINJA");
   [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
   [[NSFileManager defaultManager] copyItemAtPath:@"/etc/apt/sources.list.d/sileo.sources" toPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
 }
@@ -23,7 +22,6 @@
 
 -(void)viewDidLoad {
   %orig;
-  NSLog(@"CategoryViewController SAMGISANINJA");
   [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
   [[NSFileManager defaultManager] copyItemAtPath:@"/etc/apt/sources.list.d/sileo.sources" toPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
 }
@@ -34,7 +32,6 @@
 
 -(void)viewDidLoad {
   %orig;
-  NSLog(@"CategoryViewController SAMGISANINJA");
   [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
   [[NSFileManager defaultManager] copyItemAtPath:@"/etc/apt/sources.list.d/sileo.sources" toPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
 }
@@ -45,7 +42,6 @@
 
 -(void)viewDidLoad {
   %orig;
-  NSLog(@"CategoryViewController SAMGISANINJA");
   [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
   [[NSFileManager defaultManager] copyItemAtPath:@"/etc/apt/sources.list.d/sileo.sources" toPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
 }
@@ -56,7 +52,6 @@
 
 -(void)viewDidLoad {
   %orig;
-  NSLog(@"CategoryViewController SAMGISANINJA");
   [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
   [[NSFileManager defaultManager] copyItemAtPath:@"/etc/apt/sources.list.d/sileo.sources" toPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
 }
@@ -67,7 +62,6 @@
 
 -(void)viewDidLoad {
   %orig;
-  NSLog(@"CategoryViewController SAMGISANINJA");
   [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
   [[NSFileManager defaultManager] copyItemAtPath:@"/etc/apt/sources.list.d/sileo.sources" toPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
 }
@@ -79,7 +73,6 @@
 
 -(void)viewDidLoad {
   %orig;
-  NSLog(@"FeaturedViewController SAMGISANINJA");
   [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
   [[NSFileManager defaultManager] copyItemAtPath:@"/etc/apt/sources.list.d/sileo.sources" toPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
 }
@@ -90,7 +83,6 @@
 
 -(void)viewDidLoad {
   %orig;
-  NSLog(@"FeaturedViewController SAMGISANINJA");
   [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
   [[NSFileManager defaultManager] copyItemAtPath:@"/etc/apt/sources.list.d/sileo.sources" toPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
 }
@@ -101,7 +93,6 @@
 
 -(void)viewDidLoad {
   %orig;
-  NSLog(@"FeaturedViewController SAMGISANINJA");
   [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
   [[NSFileManager defaultManager] copyItemAtPath:@"/etc/apt/sources.list.d/sileo.sources" toPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
 }
@@ -112,7 +103,6 @@
 
 -(void)viewDidLoad {
   %orig;
-  NSLog(@"FeaturedViewController SAMGISANINJA");
   [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
   [[NSFileManager defaultManager] copyItemAtPath:@"/etc/apt/sources.list.d/sileo.sources" toPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
 }
@@ -123,7 +113,6 @@
 
 -(void)viewDidLoad {
   %orig;
-  NSLog(@"NewsViewController SAMGISANINJA");
   [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
   [[NSFileManager defaultManager] copyItemAtPath:@"/etc/apt/sources.list.d/sileo.sources" toPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
 }
@@ -134,7 +123,6 @@
 
 -(void)viewDidLoad {
   %orig;
-  NSLog(@"FeaturedViewController SAMGISANINJA");
   [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
   [[NSFileManager defaultManager] copyItemAtPath:@"/etc/apt/sources.list.d/sileo.sources" toPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
 }
@@ -145,7 +133,6 @@
 
 -(void)viewDidLoad {
   %orig;
-  NSLog(@"FeaturedViewController SAMGISANINJA");
   [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
   [[NSFileManager defaultManager] copyItemAtPath:@"/etc/apt/sources.list.d/sileo.sources" toPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
 }
@@ -156,7 +143,6 @@
 
 -(void)viewDidLoad {
   %orig;
-  NSLog(@"FeaturedViewController SAMGISANINJA");
   [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
   [[NSFileManager defaultManager] copyItemAtPath:@"/etc/apt/sources.list.d/sileo.sources" toPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
 }
@@ -167,7 +153,6 @@
 
 -(void)viewDidLoad {
   %orig;
-  NSLog(@"SettingsViewController SAMGISANINJA");
   [[NSFileManager defaultManager] removeItemAtPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
   [[NSFileManager defaultManager] copyItemAtPath:@"/etc/apt/sources.list.d/sileo.sources" toPath:@"/var/mobile/Library/Caches/sileo.sources" error:nil];
 }
